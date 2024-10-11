@@ -1,9 +1,10 @@
 import Link from "next/link"
-import { MdNavItems, NavAvatar, SmNavbarSheet } from "./NavbarSections"
+import { LgNavItems, NavAvatar, SmNavbarSheet } from "./NavbarSections"
 import { Button } from "../../ui/button"
 import Image from "next/image"
 import { ModeToggle } from "./ModeToggle"
 import { auth } from "@/auth"
+import { Plus } from "lucide-react"
 
 export default async function Navbar() {
 
@@ -13,19 +14,24 @@ export default async function Navbar() {
         <nav className="sticky top-0 z-50 w-full bg-background shadow-sm shadow-accent">
             <div className="flex items-center justify-between h-16 my-container">
                 <div className="flex-shrink-0 flex items-center gap-4">
-                    <div className="sm:hidden flex">
+                    <div className="md:hidden flex">
                         <SmNavbarSheet />
                     </div>
                     <Link href="/" className="">
                         <div className="w-max flex items-center gap-2">
-                            <Image className="w-6 sm:w-8" src="/logo.png" alt="logo" width={50} height={50} />
+                            <Image className="w-6 md:w-8" src="/logo.png" alt="logo" width={50} height={50} />
                             <span className="text-xl md:text-2xl font-medium">Contacts</span>
                         </div>
                     </Link>
                 </div>
-                <div className="hidden sm:flex items-center gap-4">
-                    <MdNavItems />
-                    <Button className="rounded-full bg-cyan-500 text-white">Create Contact</Button>
+                <div className="hidden md:flex items-center gap-4">
+                    <LgNavItems />
+                    <Button asChild variant="secondary" className="rounded-full space-x-2">
+                        <Link href="/contacts/create">
+                            <Plus />
+                            <span>Create Contact</span>
+                        </Link>
+                    </Button>
                     <ModeToggle />
                     <NavAvatar session={session} />
                 </div>

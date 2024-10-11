@@ -9,7 +9,7 @@ import { FaStar, FaUsers } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import Image from 'next/image';
 import { signOut } from "next-auth/react"
 
@@ -32,7 +32,7 @@ export const SmNavbarSheet = () => {
                     <SheetTitle>
                         <Link href="/" className="">
                             <div className="w-max flex items-center gap-2 mb-3">
-                                <img className="w-6 sm:w-8" src="/logo.png" alt="logo" width={10} height={10} />
+                                <img className="w-6 md:w-8" src="/logo.png" alt="logo" width={10} height={10} />
                                 <span className="text-xl md:text-2xl font-medium">Contacts</span>
                             </div>
                         </Link>
@@ -41,9 +41,11 @@ export const SmNavbarSheet = () => {
                 </SheetHeader>
                 <ul className='w-full flex flex-col gap-2'>
                     <li className='text-start mb-2'>
-                        <Button className="space-x-2 rounded-full px-6">
-                            <span>Create Contact</span>
-                            <Plus />
+                        <Button asChild variant="secondary" className="rounded-full space-x-2">
+                            <Link href="/contacts/create">
+                                <Plus />
+                                <span>Create Contact</span>
+                            </Link>
                         </Button>
                     </li>
                     {navItems.map(item => (
@@ -68,14 +70,14 @@ export const SmNavbarSheet = () => {
 }
 
 
-export const MdNavItems = () => {
+export const LgNavItems = () => {
     const pathname = usePathname()
 
     return (
         <>
             {navItems.map(item => (
                 <Link
-                    className={cn('font-semibold hover:text-cyan-500 px-2', pathname === item.href ? 'text-cyan-500' : 'text-foreground')}
+                    className={cn('font-semibold hover:text-secondary px-2', pathname === item.href ? 'text-secondary' : 'text-foreground')}
                     key={item.href}
                     href={item.href}
                 >
@@ -101,7 +103,7 @@ export const NavAvatar = ({ session }) => {
                     <DropdownMenuContent side="bottom" align="end" className="rounded-xl border-none dark:shadow-muted">
                         <div className='p-4 min-w-64 w-max'>
                             <figure className='flex items-center justify-center size-20 m-auto mb-2'>
-                                <Image width={80} height={80} className='w-full rounded-full border-cyan-500 border' src="https://github.com/shadcn.png" alt="" />
+                                <Image width={80} height={80} className='w-full rounded-full border-secondary border' src="https://github.com/shadcn.png" alt="" />
                             </figure>
                             <div className=''>
                                 <h3 className='text-lg font-medium text-center'>MH. Mitas</h3>
