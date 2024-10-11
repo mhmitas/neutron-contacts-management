@@ -7,7 +7,7 @@ import { ModeToggle } from "./ModeToggle"
 export default async function Navbar() {
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-background shadow-sm dark:border-b">
+        <nav className="sticky top-0 z-50 w-full bg-background shadow-sm shadow-accent">
             <div className="flex items-center justify-between h-16 my-container">
                 <div className="flex-shrink-0 flex items-center gap-4">
                     <div className="sm:hidden flex">
