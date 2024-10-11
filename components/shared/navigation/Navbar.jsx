@@ -2,6 +2,7 @@ import Link from "next/link"
 import { MdNavItems, NavAvatar, SmNavbarSheet } from "./NavbarSections"
 import { Button } from "../../ui/button"
 import Image from "next/image"
+import { ModeToggle } from "./ModeToggle"
 
 export default async function Navbar() {
 
@@ -23,6 +24,7 @@ export default async function Navbar() {
                     <MdNavItems />
                     <Button className="rounded-full bg-cyan-500 text-white">Create Contact</Button>
                     <NavAvatar />
+                    <ModeToggle />
                 </div>
             </div>
         </nav >

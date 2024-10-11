@@ -3,7 +3,7 @@ import React from 'react'
 
 const Home = () => {
     return (
-        <main>
+        <main className='mb-10'>
             <ContactsSection />
         </main>
     )
