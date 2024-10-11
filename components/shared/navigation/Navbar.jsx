@@ -24,14 +24,16 @@ export default async function Navbar() {
                         </div>
                     </Link>
                 </div>
-                <div className="hidden md:flex items-center gap-4">
-                    <LgNavItems />
-                    <Button asChild variant="secondary" className="rounded-full space-x-2">
-                        <Link href="/contacts/create">
-                            <Plus />
-                            <span>Create Contact</span>
-                        </Link>
-                    </Button>
+                <div className="flex items-center gap-4">
+                    <div className="hidden md:flex items-center gap-4">
+                        <LgNavItems />
+                        <Button asChild variant="secondary" className="rounded-full space-x-2">
+                            <Link href="/contacts/create">
+                                <Plus />
+                                <span>Create Contact</span>
+                            </Link>
+                        </Button>
+                    </div>
                     <ModeToggle />
                     <NavAvatar session={session} />
                 </div>

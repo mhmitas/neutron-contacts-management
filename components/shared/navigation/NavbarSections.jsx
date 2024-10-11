@@ -97,7 +97,7 @@ export const NavAvatar = ({ session }) => {
                     <DropdownMenuTrigger className='rounded-full'>
                         <Avatar>
                             <AvatarImage src={session?.user?.image} />
-                            <AvatarFallback className="bg-gradient-to-b from-cyan-500 to-indigo-500 text-white">{session?.user?.name?.slice(0, 2)}</AvatarFallback>
+                            <AvatarFallback className="bg-gradient-to-b from-cyan-500 to-violet-600 text-white">{session?.user?.name?.slice(0, 2)}</AvatarFallback>
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="bottom" align="end" className="rounded-xl border-none dark:shadow-muted">
