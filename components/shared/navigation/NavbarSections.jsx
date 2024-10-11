@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
-import { Menu, Plus } from 'lucide-react';
+import { LogOut, Menu, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../../ui/button';
 import { FaStar, FaUsers } from "react-icons/fa";
@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
+import Image from 'next/image';
 
 const navItems = [
     { name: "Contacts", href: "/", Icon: FaUsers },
@@ -97,7 +98,7 @@ export const NavAvatar = () => {
             <DropdownMenuContent side="bottom" align="end" className="rounded-xl">
                 <div className='p-4 min-w-64 w-max'>
                     <figure className='flex items-center justify-center size-20 m-auto mb-2'>
-                        <img className='w-full rounded-full border-cyan-500 border' src="https://github.com/shadcn.png" alt="" />
+                        <Image width={80} height={80} className='w-full rounded-full border-cyan-500 border' src="https://github.com/shadcn.png" alt="" />
                     </figure>
                     <div className=''>
                         <h3 className='text-lg font-medium text-center'>MH. Mitas</h3>
@@ -105,7 +106,10 @@ export const NavAvatar = () => {
                     </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="py-2 px-4">Logout</DropdownMenuItem>
+                <DropdownMenuItem className="py-2 px-4 space-x-2">
+                    <LogOut className='size-5' />
+                    <span>Logout</span>
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
 
