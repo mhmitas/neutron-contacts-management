@@ -3,8 +3,11 @@ import { MdNavItems, NavAvatar, SmNavbarSheet } from "./NavbarSections"
 import { Button } from "../../ui/button"
 import Image from "next/image"
 import { ModeToggle } from "./ModeToggle"
+import { auth } from "@/auth"
 
 export default async function Navbar() {
+
+    const session = await auth()
 
     return (
         <nav className="sticky top-0 z-50 w-full bg-background shadow-sm shadow-accent">
@@ -23,8 +26,8 @@ export default async function Navbar() {
                 <div className="hidden sm:flex items-center gap-4">
                     <MdNavItems />
                     <Button className="rounded-full bg-cyan-500 text-white">Create Contact</Button>
-                    <NavAvatar />
                     <ModeToggle />
+                    <NavAvatar session={session} />
                 </div>
             </div>
         </nav >

@@ -44,7 +44,7 @@ const contacts = [
     },
     {
         firstName: "Emily Brown",
-        email: "emilybrownemilybrownemilybrown@yahoo.com",
+        email: "emilybrown@yahoo.com",
         phone: "+1445566778",
         address: "321 Oak St, Houston, TX 77001",
         avatar: "https://randomuser.me/api/portraits/women/2.jpg"

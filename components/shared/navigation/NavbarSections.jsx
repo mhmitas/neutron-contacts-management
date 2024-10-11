@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import Image from 'next/image';
+import { signOut } from "next-auth/react"
 
 const navItems = [
     { name: "Contacts", href: "/", Icon: FaUsers },
@@ -74,7 +75,7 @@ export const MdNavItems = () => {
         <>
             {navItems.map(item => (
                 <Link
-                    className={cn('font-semibold hover:text-cyan-500', pathname === item.href ? 'text-cyan-500' : 'text-foreground')}
+                    className={cn('font-semibold hover:text-cyan-500 px-2', pathname === item.href ? 'text-cyan-500' : 'text-foreground')}
                     key={item.href}
                     href={item.href}
                 >
@@ -86,32 +87,38 @@ export const MdNavItems = () => {
 }
 
 
-export const NavAvatar = () => {
+export const NavAvatar = ({ session }) => {
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger className='rounded-full'>
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side="bottom" align="end" className="rounded-xl">
-                <div className='p-4 min-w-64 w-max'>
-                    <figure className='flex items-center justify-center size-20 m-auto mb-2'>
-                        <Image width={80} height={80} className='w-full rounded-full border-cyan-500 border' src="https://github.com/shadcn.png" alt="" />
-                    </figure>
-                    <div className=''>
-                        <h3 className='text-lg font-medium text-center'>MH. Mitas</h3>
-                        <p className='text-sm text-center'>mahfuzulmitas@gmail.com</p>
-                    </div>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="py-2 px-4 space-x-2">
-                    <LogOut className='size-5' />
-                    <span>Logout</span>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+            {session ?
+                <DropdownMenu>
+                    <DropdownMenuTrigger className='rounded-full'>
+                        <Avatar>
+                            <AvatarImage src={session?.user?.image} />
+                            <AvatarFallback className="bg-gradient-to-b from-cyan-500 to-indigo-500 text-white">{session?.user?.name?.slice(0, 2)}</AvatarFallback>
+                        </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="bottom" align="end" className="rounded-xl border-none dark:shadow-muted">
+                        <div className='p-4 min-w-64 w-max'>
+                            <figure className='flex items-center justify-center size-20 m-auto mb-2'>
+                                <Image width={80} height={80} className='w-full rounded-full border-cyan-500 border' src="https://github.com/shadcn.png" alt="" />
+                            </figure>
+                            <div className=''>
+                                <h3 className='text-lg font-medium text-center'>MH. Mitas</h3>
+                                <p className='text-sm text-center'>mahfuzulmitas@gmail.com</p>
+                            </div>
+                        </div>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="py-2 px-4 space-x-2" onClick={signOut}>
+                            <LogOut className='size-5' />
+                            <span>Logout</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                :
+                <Button size="sm">Sign In</Button>
+            }
+        </>
 
     )
 }
