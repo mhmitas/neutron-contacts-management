@@ -8,7 +8,9 @@ const CreateContactPage = async () => {
     return (
         <main className='my-container mb-10'>
             <h1 className='text-xl sm:text-2xl text-center font-semibold my-6'>Add a new contact</h1>
-            <ContactForm formType="Create" userId={session?.user?.id} />
+            <div className='max-w-2xl mx-auto shadow-md dark:shadow-muted/50 rounded-lg p-4 sm:p-6 md:p-8 border'>
+                <ContactForm formType="Create" userId={session?.user?.id} />
+            </div>
         </main>
     )
 }

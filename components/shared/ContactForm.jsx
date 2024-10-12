@@ -16,9 +16,11 @@ import { createContact } from '@/lib/actions/contact.actions'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
-const ContactForm = ({ formType, userId }) => {
+const ContactForm = ({ formType, contact, userId }) => {
     const [avatarFile, setAvatarFile] = useState(null)
-    const [avatarPreview, setAvatarPreview] = useState('')
+    const [avatarPreview, setAvatarPreview] = useState(
+        formType === "Update" && contact ? contact?.avatar : ""
+    )
     const router = useRouter()
 
     function handleAvatarChange(e) {
@@ -30,9 +32,11 @@ const ContactForm = ({ formType, userId }) => {
         setAvatarPreview(URL.createObjectURL(e.target.files[0]))
     }
 
+    const initialValues = formType === "Update" && contact ? { ...contact } : contactFormDefaultValue
+
     const form = useForm({
         resolver: zodResolver(contactFormSchema),
-        defaultValues: contactFormDefaultValue,
+        defaultValues: initialValues,
     })
 
     async function onSubmit(values) {
@@ -60,7 +64,7 @@ const ContactForm = ({ formType, userId }) => {
     }
 
     return (
-        <section className='w-full max-w-xl mx-auto shadow-md dark:shadow-muted/50 rounded-lg p-4 sm:p-6 md:p-8'>
+        <section className='w-full mx-auto'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     {/* avatar input */}
