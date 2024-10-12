@@ -15,7 +15,7 @@ import { signOut } from "next-auth/react"
 
 const navItems = [
     { name: "Contacts", href: "/", Icon: FaUsers },
-    { name: "Favorites ", href: "/favorites", Icon: FaStar },
+    { name: "Favorites ", href: "/favorite-contacts", Icon: FaStar },
 ]
 
 

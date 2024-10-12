@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import { Edit2, EllipsisVertical, Star, Trash } from 'lucide-react';
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import UpdateModal from '../shared/UpdateModal'
 import askConfirm from '../shared/confirmModals/askConfirm'
 import { deleteContact, toggleFavorite } from '@/lib/actions/contact.actions'
@@ -17,6 +17,7 @@ const ContactCard = ({ contact, userId }) => {
     const [showUpdateModal, setShowUpdateModal] = useState(false)
     const router = useRouter()
     const { firstName, lastName, email, phone, address, avatar } = contact;
+    const pathname = usePathname()
 
     function handleRedirect() {
         router.push(`/contacts/${contact?._id}/details`)
@@ -36,7 +37,7 @@ const ContactCard = ({ contact, userId }) => {
                 toggleFavorite({
                     contactId: contact?._id,
                     favorite: contact?.favorite,
-                    path: `/`
+                    path: pathname
                 }),
                 {
                     loading: 'Working...',

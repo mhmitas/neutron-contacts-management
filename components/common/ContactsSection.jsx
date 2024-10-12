@@ -1,16 +1,10 @@
 import React from 'react'
 import ContactCard from '../cards/ContactCard';
-import { getContactsByUser } from '@/lib/actions/contact.actions';
-import { auth } from '@/auth';
 
-const ContactsSection = async () => {
-    const session = await auth()
-
-    const { data: contacts } = await getContactsByUser({ userId: session?.user?.id });
+const ContactsSection = async ({ session, contacts }) => {
 
     return (
-        <section className='my-container mt-6'>
-            <h1 className='text-2xl font-medium'>Contacts {'('}{contacts.length}{')'}</h1>
+        <section className=''>
             <div className='grid grid-cols-1 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 py-3 px-6 gap-4 border-b mb-4 sticky top-16 bg-background/70 z-10 backdrop-blur-sm'>
                 <p className='col-span-3'>Name</p>
                 <p className='col-span-2 hidden sm:flex items-center'>Email</p>

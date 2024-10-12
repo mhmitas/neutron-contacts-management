@@ -8,7 +8,7 @@ const Layout = async ({ children }) => {
     const session = await auth()
 
     if (!session) {
-        // return redirect("/sign-in")
+        return redirect("/sign-in")
     }
 
     return (
