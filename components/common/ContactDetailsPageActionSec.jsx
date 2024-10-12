@@ -6,12 +6,32 @@ import { ArrowLeft, Edit2, Star, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import UpdateModal from '../shared/UpdateModal'
 import askConfirm from '../shared/confirmModals/askConfirm'
-import { deleteContact } from '@/lib/actions/contact.actions'
+import { deleteContact, toggleFavorite } from '@/lib/actions/contact.actions'
 import toast from 'react-hot-toast'
+import { cn } from '@/lib/utils'
 
 const ContactDetailsPageActionSec = ({ contact, session }) => {
     const router = useRouter()
-    const [showUpdateModal, setShowUpdateModal] = useState(false)
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+    async function handleFavorite() {
+        try {
+            toast.promise(
+                toggleFavorite({
+                    contactId: contact?._id,
+                    favorite: contact?.favorite,
+                    path: `/`
+                }),
+                {
+                    loading: 'Working...',
+                    success: (data) => data?.message,
+                    error: (err) => err?.message,
+                },
+            )
+        } catch (error) {
+            toast.error(error?.message)
+        }
+    }
 
     async function handleDelete() {
         try {
@@ -38,11 +58,33 @@ const ContactDetailsPageActionSec = ({ contact, session }) => {
             <Button onClick={() => router.back()} size="icon" variant="ghost" className="rounded-full"><ArrowLeft className='size-5' /></Button>
             <div>
                 {/* favorite */}
-                <Button size="icon" variant="ghost" className="rounded-full" ><Star className='size-5' /></Button>
+                <Button
+                    onClick={handleFavorite}
+                    size="icon"
+                    variant="ghost"
+                    className={cn("rounded-full")} >
+                    {contact?.favorite
+                        ? <Star className='size-5 text-[#06b6d4]' fill='#06b6d4' />
+                        : <Star className='size-5' />
+                    }
+                </Button>
                 {/* Edit */}
-                <Button onClick={() => setShowUpdateModal(true)} size="icon" variant="ghost" className="rounded-full" ><Edit2 className='size-5' /></Button>
+                <Button
+                    onClick={() => setShowUpdateModal(true)}
+                    size="icon"
+                    variant="ghost"
+                    className="rounded-full"
+                >
+                    <Edit2 className='size-5' />
+                </Button>
                 {/* Delete */}
-                <Button onClick={handleDelete} size="icon" variant="ghost" className="rounded-full" ><Trash className='size-5' /></Button>
+                <Button
+                    onClick={handleDelete}
+                    size="icon"
+                    variant="ghost"
+                    className="rounded-full" >
+                    <Trash className='size-5' />
+                </Button>
             </div>
             <UpdateModal
                 contact={contact}

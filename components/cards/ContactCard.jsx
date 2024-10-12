@@ -8,8 +8,9 @@ import { Edit2, EllipsisVertical, Star, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation'
 import UpdateModal from '../shared/UpdateModal'
 import askConfirm from '../shared/confirmModals/askConfirm'
-import { deleteContact } from '@/lib/actions/contact.actions'
+import { deleteContact, toggleFavorite } from '@/lib/actions/contact.actions'
 import toast from 'react-hot-toast'
+import { cn } from '@/lib/utils'
 
 
 const ContactCard = ({ contact, userId }) => {
@@ -27,6 +28,25 @@ const ContactCard = ({ contact, userId }) => {
 
     function handleUpdate() {
         setShowUpdateModal(true);
+    }
+
+    async function handleFavorite() {
+        try {
+            toast.promise(
+                toggleFavorite({
+                    contactId: contact?._id,
+                    favorite: contact?.favorite,
+                    path: `/`
+                }),
+                {
+                    loading: 'Working...',
+                    success: (data) => data?.message,
+                    error: (err) => err?.message,
+                },
+            )
+        } catch (error) {
+            toast.error(error?.message)
+        }
     }
 
     async function handleDelete() {
@@ -93,7 +113,17 @@ const ContactCard = ({ contact, userId }) => {
             {/* action | display form lg device */}
             <div className='hidden lg:flex justify-center items-center'>
                 {/* add to favorite */}
-                <Button size="icon" variant="ghost" className="rounded-full" ><Star className='size-4' /></Button>
+                <Button
+                    onClick={handleFavorite}
+                    size="icon"
+                    variant="ghost"
+                    className={cn("rounded-full")}
+                >
+                    {contact?.favorite
+                        ? <Star className='size-4 text-[#06b6d4]' fill='#06b6d4' />
+                        : <Star className='size-4' />
+                    }
+                </Button>
                 {/* update */}
                 <Button onClick={handleUpdate} size="icon" variant="ghost" className="rounded-full" ><Edit2 className='size-4' /></Button>
                 {/* delete */}
@@ -102,6 +132,8 @@ const ContactCard = ({ contact, userId }) => {
             <EllipseMenu
                 handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
+                handleFavorite={handleFavorite}
+                favorite={contact?.favorite}
             />
             <UpdateModal
                 open={showUpdateModal}
@@ -116,16 +148,17 @@ const ContactCard = ({ contact, userId }) => {
 export default ContactCard
 
 
-function EllipseMenu({ handleUpdate, handleDelete }) {
+function EllipseMenu({ handleUpdate, handleDelete, handleFavorite, favorite }) {
+
     return (
         <DropdownMenu className=''>
             <DropdownMenuTrigger asChild className='absolute lg:hidden flex right-2 top-1/4'>
                 <Button size="icon" variant="ghost" className="rounded-full group-hover:bg-background/50 size-7" ><EllipsisVertical className='size-4' /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="*:px-4 *:py-2 px-0 shadow-lg min-w-64">
-                <DropdownMenuItem className="space-x-2">
+                <DropdownMenuItem onClick={handleFavorite} className="space-x-2">
                     <Star className='size-4' />
-                    <span>Add to favorites</span>
+                    <span>{favorite ? "Remove from favorites" : "Add to favorites"}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleUpdate} className="space-x-2">
                     <Edit2 className='size-4' />
