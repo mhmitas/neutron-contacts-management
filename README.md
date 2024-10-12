@@ -15,13 +15,13 @@
   # create a mongodb account and take the uri
   MONGODB_URI=
 
+  # run this command `npx auth secret` in your cli to generate this variable 
+  AUTH_SECRET=
+
   # already provided in the task submission email. Take from the email or create a Cloudinary account and take needed credentials
   CLOUDINARY_CLOUD_NAME=
   CLOUDINARY_API_KEY=
   CLOUDINARY_API_SECRET=
-
-  # run this command `npx auth secret` in your cli to generate this variable 
-  AUTH_SECRET=
 
   # already provided in the task submission email. Take from the email or create from your account from this link `https://console.cloud.google.com/apis/credentials`
   AUTH_GOOGLE_ID=
