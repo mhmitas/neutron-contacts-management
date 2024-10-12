@@ -7,6 +7,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Edit2, EllipsisVertical, Star, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation'
 import UpdateModal from '../shared/UpdateModal'
+import askConfirm from '../shared/confirmModals/askConfirm'
+import { deleteContact } from '@/lib/actions/contact.actions'
+import toast from 'react-hot-toast'
 
 
 const ContactCard = ({ contact, userId }) => {
@@ -26,6 +29,26 @@ const ContactCard = ({ contact, userId }) => {
         setShowUpdateModal(true);
     }
 
+    async function handleDelete() {
+        try {
+            const ask = await askConfirm("Are you sure you want to delete this contact?")
+            if (!ask) return;
+
+            const res = await deleteContact({ contactId: contact?._id })
+
+            if (res?.error) {
+                return toast.error(res?.error)
+            }
+            if (res?.success) {
+                // target: details page to home
+                // router.push('/')
+            }
+        } catch (error) {
+            // console.error(error)
+            toast.error(error?.message || "Something went wrong")
+        }
+    }
+
     return (
         <div
             className='grid grid-cols-1 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 py-2 pl-3 pr-5 sm:pl-6 sm:pr-8 lg:pl-6 lg:pr-6 hover:bg-secondary/10 rounded gap-2 relative group transition-colors mb-2 cursor-pointer active:bg-secondary/25'
@@ -39,7 +62,7 @@ const ContactCard = ({ contact, userId }) => {
             >
                 <Avatar>
                     <AvatarImage src={avatar} />
-                    <AvatarFallback>{firstName.slice(0, 1)}</AvatarFallback>
+                    <AvatarFallback>{firstName?.slice(0, 1)}</AvatarFallback>
                 </Avatar>
                 <h3 className='line-clamp-2'>{firstName + " " + lastName}</h3>
             </div>
@@ -74,10 +97,11 @@ const ContactCard = ({ contact, userId }) => {
                 {/* update */}
                 <Button onClick={handleUpdate} size="icon" variant="ghost" className="rounded-full" ><Edit2 className='size-4' /></Button>
                 {/* delete */}
-                <Button size="icon" variant="ghost" className="rounded-full" ><Trash className='size-4' /></Button>
+                <Button onClick={handleDelete} size="icon" variant="ghost" className="rounded-full" ><Trash className='size-4' /></Button>
             </div>
             <EllipseMenu
                 handleUpdate={handleUpdate}
+                handleDelete={handleDelete}
             />
             <UpdateModal
                 open={showUpdateModal}
@@ -92,7 +116,7 @@ const ContactCard = ({ contact, userId }) => {
 export default ContactCard
 
 
-function EllipseMenu({ handleUpdate }) {
+function EllipseMenu({ handleUpdate, handleDelete }) {
     return (
         <DropdownMenu className=''>
             <DropdownMenuTrigger asChild className='absolute lg:hidden flex right-2 top-1/4'>
@@ -107,7 +131,7 @@ function EllipseMenu({ handleUpdate }) {
                     <Edit2 className='size-4' />
                     <span>Edit</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="space-x-2">
+                <DropdownMenuItem onClick={handleDelete} className="space-x-2">
                     <Trash className='size-4' />
                     <span>Delete</span>
                 </DropdownMenuItem>

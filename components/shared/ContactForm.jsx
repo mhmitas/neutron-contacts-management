@@ -50,10 +50,10 @@ const ContactForm = ({ formType, contact, userId, setShowModal }) => {
                     formData,
                     userId
                 })
-                console.log(res)
+                // console.log(res)
                 // if any errors are returned display them
                 if (res?.error) {
-                    toast.error(res.error)
+                    return toast.error(res.error)
                 }
                 // navigate to the home page
                 if (res?.success) {
@@ -79,7 +79,7 @@ const ContactForm = ({ formType, contact, userId, setShowModal }) => {
                     userId
                 })
                 if (res?.error) {
-                    toast.error(res.error)
+                    return toast.error(res.error)
                 }
                 // navigate to the home page
                 if (res?.success) {

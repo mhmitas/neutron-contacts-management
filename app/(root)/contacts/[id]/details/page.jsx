@@ -18,7 +18,7 @@ const ContactDetails = async ({ params: { id } }) => {
         return <ErrorCard error={error} />
     }
 
-    const { firstName, lastName, avatar, email, phone, address } = contact;
+    const { firstName, lastName, avatar, email, phone, address } = contact || {};
 
     return (
         <main className='my-container'>
@@ -26,7 +26,7 @@ const ContactDetails = async ({ params: { id } }) => {
                 <ContactDetailsPageActionSec contact={contact} session={session} />
                 <figure className='size-36 sm:size-48 md:size-60 rounded-full bg-gradient-to-b from-cyan-500/20 to-violet-500/20 m-auto border flex items-center justify-center overflow-hidden'>
                     {avatar ?
-                        <Image src={avatar} width={250} height={250} alt={firstName} /> :
+                        <Image src={avatar} width={250} height={250} alt={firstName || "user profile image"} /> :
                         <p className='text-7xl sm:text-8xl md:text-9xl'>{firstName?.slice(0, 1)}</p>
                     }
                 </figure>
