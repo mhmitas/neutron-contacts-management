@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from 
 import { Input } from "@/components/ui/input"
 import { contactFormSchema } from '@/lib/validators'
 import { contactFormDefaultValue } from '@/lib/constants'
-import { Plus } from 'lucide-react'
+import { Plus, User } from 'lucide-react'
 import Image from 'next/image'
 
 const ContactForm = ({ formType, userId }) => {
@@ -42,7 +42,9 @@ const ContactForm = ({ formType, userId }) => {
                         className='m-auto relative border bg-gradient-to-b from-cyan-500/20 to-violet-500/20 to w-max rounded-full flex size-28 sm:size-36 aspect-square cursor-pointer'
                     >
                         <figure className='size-full overflow-hidden rounded-full flex items-center'>
-                            {avatarPreview && <Image className='w-full' width={150} height={150} src={avatarPreview} alt="avatar-preview" />}
+                            {avatarPreview ? <Image className='w-full' width={150} height={150} src={avatarPreview} alt="avatar-preview" /> :
+                                <User strokeWidth={1} className='p-6 size-full' />
+                            }
                         </figure>
                         <input onChange={handleAvatarChange} type="file" name="avatar" id="avatar" className='hidden' />
                         <span className="absolute bottom-0 right-0 z-10 rounded-full border-background border-4 bg-primary text-primary-foreground p-1 hover:bg-opacity-90"><Plus /></span>

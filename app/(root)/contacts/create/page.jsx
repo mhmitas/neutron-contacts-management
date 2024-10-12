@@ -3,7 +3,7 @@ import React from 'react'
 
 const CreateContactPage = () => {
     return (
-        <main className='my-container mb-8'>
+        <main className='my-container mb-10'>
             <h1 className='text-xl sm:text-2xl text-center font-semibold my-6'>Add a new contact</h1>
             <ContactForm formType="Create" />
         </main>

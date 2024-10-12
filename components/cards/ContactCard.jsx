@@ -16,7 +16,7 @@ const ContactCard = ({ contact }) => {
 
     return (
         <Link href="#">
-            <div className='grid grid-cols-1 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 py-2 pl-3 pr-5 sm:pl-6 sm:pr-8 lg:pl-6 lg:pr-6 hover:bg-muted dark:hover:bg-muted/80 rounded-lg gap-2 relative group transition-colors mb-2'>
+            <div className='grid grid-cols-1 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 py-2 pl-3 pr-5 sm:pl-6 sm:pr-8 lg:pl-6 lg:pr-6 hover:bg-secondary/10 rounded-lg gap-2 relative group transition-colors mb-2'>
                 {/* name and avatar | always display */}
                 <div className='flex items-center gap-4 col-span-3'>
                     <Avatar>
