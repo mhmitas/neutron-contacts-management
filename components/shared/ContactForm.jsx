@@ -66,7 +66,7 @@ const ContactForm = ({ formType, userId }) => {
                     {/* avatar input */}
                     <label
                         htmlFor='avatar'
-                        className='m-auto relative border bg-gradient-to-b from-cyan-500/20 to-violet-500/20 to w-max rounded-full flex size-28 sm:size-36 aspect-square cursor-pointer'
+                        className='m-auto relative border bg-gradient-to-b from-cyan-500/20 to-violet-500/20 w-max rounded-full flex size-28 sm:size-36 aspect-square cursor-pointer'
                         title='Click to add profile photo'
                     >
                         <figure className='size-full overflow-hidden rounded-full flex items-center'>
