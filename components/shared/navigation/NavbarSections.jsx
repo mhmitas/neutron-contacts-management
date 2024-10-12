@@ -102,8 +102,8 @@ export const NavAvatar = ({ session }) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="bottom" align="end" className="rounded-xl border-none dark:shadow-muted">
                         <div className='p-4 min-w-64 w-max'>
-                            <figure className='flex items-center justify-center size-20 m-auto mb-2'>
-                                <Image width={80} height={80} className='w-full rounded-full border-secondary border' src="https://github.com/shadcn.png" alt="" />
+                            <figure className='flex items-center justify-center size-24 rounded-full m-auto mb-2 bg-gradient-to-b from-cyan-500 to-violet-600 text-white'>
+                                <Image width={100} height={100} className='w-full rounded-full border-secondary' src={session?.user?.image} alt="user profile image" />
                             </figure>
                             <div className=''>
                                 <h3 className='text-lg font-medium text-center'>MH. Mitas</h3>

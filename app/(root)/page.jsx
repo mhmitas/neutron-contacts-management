@@ -20,6 +20,7 @@ const Home = async () => {
             <section className='my-container'>
                 <h1 className='text-xl sm:text-2xl font-medium mb-3 mt-6'>Contacts {'('}{contacts?.length}{')'}</h1>
                 <ContactsSection contacts={contacts} session={session} />
+                {contacts?.length === 0 && <p className='text-center py-6 px-2 text-muted-foreground'>You have no contacts.</p>}
             </section>
         </main>
     )
