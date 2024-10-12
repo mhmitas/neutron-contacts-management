@@ -17,6 +17,7 @@ const UpdateModal = ({ open, setOpen, userId, contact }) => {
                     formType={"Update"}
                     contact={contact}
                     userId={userId}
+                    setShowModal={setOpen}
                 />
             </DialogContent>
         </Dialog>

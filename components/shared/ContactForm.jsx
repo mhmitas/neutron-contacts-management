@@ -10,13 +10,12 @@ import { contactFormSchema } from '@/lib/validators'
 import { contactFormDefaultValue } from '@/lib/constants'
 import { Plus, User } from 'lucide-react'
 import { CgSpinner } from "react-icons/cg";
-
 import Image from 'next/image'
-import { createContact } from '@/lib/actions/contact.actions'
+import { createContact, updateContact } from '@/lib/actions/contact.actions'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
-const ContactForm = ({ formType, contact, userId }) => {
+const ContactForm = ({ formType, contact, userId, setShowModal }) => {
     const [avatarFile, setAvatarFile] = useState(null)
     const [avatarPreview, setAvatarPreview] = useState(
         formType === "Update" && contact ? contact?.avatar : ""
@@ -40,26 +39,57 @@ const ContactForm = ({ formType, contact, userId }) => {
     })
 
     async function onSubmit(values) {
-        try {
-            const formData = new FormData()
-            formData.append("avatarFile", avatarFile)
-            const res = await createContact({
-                contact: values,
-                formData,
-                userId
-            })
-            console.log(res)
-            // if any errors are returned display them
-            if (res?.error) {
-                toast.error(res.error)
+        if (!userId) return;
+        // create a new contact
+        if (formType === "Create") {
+            try {
+                const formData = new FormData()
+                formData.append("avatarFile", avatarFile)
+                const res = await createContact({
+                    contact: values,
+                    formData,
+                    userId
+                })
+                console.log(res)
+                // if any errors are returned display them
+                if (res?.error) {
+                    toast.error(res.error)
+                }
+                // navigate to the home page
+                if (res?.success) {
+                    form?.reset()
+                    router.push(`/contacts/${res?.data?._id}/details`)
+                }
+            } catch (error) {
+                console.log(error)
+                toast.error(error?.message || "Something went wrong")
             }
-            // navigate to the home page
-            if (res?.success) {
-                router.push("/")
+        }
+        // update contact
+        if (formType === "Update") {
+            try {
+                const formData = new FormData();
+                if (avatarFile) {
+                    formData.append("avatarFile", avatarFile)
+                }
+                const res = await updateContact({
+                    contactId: contact?._id,
+                    contact: values,
+                    formData,
+                    userId
+                })
+                console.log(avatarFile)
+                if (res?.error) {
+                    toast.error(res.error)
+                }
+                // navigate to the home page
+                if (res?.success) {
+                    setShowModal(false)
+                }
+            } catch (error) {
+                console.log(error)
+                toast.error(error?.message || "Something went wrong")
             }
-        } catch (error) {
-            console.log(error)
-            toast.error(error?.message || "Something went wrong")
         }
     }
 
