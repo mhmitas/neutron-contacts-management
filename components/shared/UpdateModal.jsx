@@ -3,6 +3,8 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import ContactForm from './ContactForm'
+import { Button } from '../ui/button'
+import { X } from 'lucide-react'
 
 const UpdateModal = ({ open, setOpen, userId, contact }) => {
     return (
@@ -19,6 +21,7 @@ const UpdateModal = ({ open, setOpen, userId, contact }) => {
                     userId={userId}
                     setShowModal={setOpen}
                 />
+                <Button onClick={() => setOpen(false)} size="icon" variant="ghost" className="absolute top-1 right-1 rounded-full z-10"><X /></Button>
             </DialogContent>
         </Dialog>
 

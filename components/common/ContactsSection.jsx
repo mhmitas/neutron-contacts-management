@@ -19,7 +19,11 @@ const ContactsSection = async () => {
                 <p className='hidden lg:flex justify-center items-center'>Actions</p>
             </div>
             <div className=''>
-                {contacts.map((contact, index) => <ContactCard key={index} contact={contact} />)}
+                {contacts.map((contact, index) => <ContactCard
+                    key={index}
+                    contact={contact}
+                    userId={session?.user?.id}
+                />)}
             </div>
         </section>
     )

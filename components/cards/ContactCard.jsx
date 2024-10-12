@@ -1,16 +1,18 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import { Edit2, EllipsisVertical, Star, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation'
+import UpdateModal from '../shared/UpdateModal'
 
 
-const ContactCard = ({ contact }) => {
+const ContactCard = ({ contact, userId }) => {
+    const [showUpdateModal, setShowUpdateModal] = useState(false)
     const router = useRouter()
-    const { firstName, email, phone, address, avatar } = contact;
+    const { firstName, lastName, email, phone, address, avatar } = contact;
 
     function handleRedirect() {
         router.push(`/contacts/${contact?._id}/details`)
@@ -18,6 +20,10 @@ const ContactCard = ({ contact }) => {
     function handleRedirectFromParent(e) {
         if (e.target !== e.currentTarget) return;
         router.push(`/contacts/${contact?._id}/details`)
+    }
+
+    function handleUpdate() {
+        setShowUpdateModal(true);
     }
 
     return (
@@ -35,7 +41,7 @@ const ContactCard = ({ contact }) => {
                     <AvatarImage src={avatar} />
                     <AvatarFallback>{firstName.slice(0, 1)}</AvatarFallback>
                 </Avatar>
-                <h3 className='line-clamp-2'>{firstName}</h3>
+                <h3 className='line-clamp-2'>{firstName + " " + lastName}</h3>
             </div>
             {/* email | visible from sm device */}
             <div
@@ -63,11 +69,22 @@ const ContactCard = ({ contact }) => {
             </div>
             {/* action | display form lg device */}
             <div className='hidden lg:flex justify-center items-center'>
+                {/* add to favorite */}
                 <Button size="icon" variant="ghost" className="rounded-full" ><Star className='size-4' /></Button>
-                <Button size="icon" variant="ghost" className="rounded-full" ><Edit2 className='size-4' /></Button>
+                {/* update */}
+                <Button onClick={handleUpdate} size="icon" variant="ghost" className="rounded-full" ><Edit2 className='size-4' /></Button>
+                {/* delete */}
                 <Button size="icon" variant="ghost" className="rounded-full" ><Trash className='size-4' /></Button>
             </div>
-            <EllipseMenu />
+            <EllipseMenu
+                handleUpdate={handleUpdate}
+            />
+            <UpdateModal
+                open={showUpdateModal}
+                setOpen={setShowUpdateModal}
+                contact={contact}
+                userId={userId}
+            />
         </div>
     )
 }
@@ -75,7 +92,7 @@ const ContactCard = ({ contact }) => {
 export default ContactCard
 
 
-function EllipseMenu() {
+function EllipseMenu({ handleUpdate }) {
     return (
         <DropdownMenu className=''>
             <DropdownMenuTrigger asChild className='absolute lg:hidden flex right-2 top-1/4'>
@@ -86,7 +103,7 @@ function EllipseMenu() {
                     <Star className='size-4' />
                     <span>Add to favorites</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="space-x-2">
+                <DropdownMenuItem onClick={handleUpdate} className="space-x-2">
                     <Edit2 className='size-4' />
                     <span>Edit</span>
                 </DropdownMenuItem>

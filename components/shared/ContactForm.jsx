@@ -78,12 +78,12 @@ const ContactForm = ({ formType, contact, userId, setShowModal }) => {
                     formData,
                     userId
                 })
-                console.log(avatarFile)
                 if (res?.error) {
                     toast.error(res.error)
                 }
                 // navigate to the home page
                 if (res?.success) {
+                    router.push(`/contacts/${contact?._id}/details`)
                     setShowModal(false)
                 }
             } catch (error) {
