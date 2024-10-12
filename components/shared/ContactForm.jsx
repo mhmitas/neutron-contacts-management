@@ -9,14 +9,23 @@ import { Input } from "@/components/ui/input"
 import { contactFormSchema } from '@/lib/validators'
 import { contactFormDefaultValue } from '@/lib/constants'
 import { Plus, User } from 'lucide-react'
+import { CgSpinner } from "react-icons/cg";
+
 import Image from 'next/image'
+import { createContact } from '@/lib/actions/contact.actions'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 const ContactForm = ({ formType, userId }) => {
     const [avatarFile, setAvatarFile] = useState(null)
     const [avatarPreview, setAvatarPreview] = useState('')
+    const router = useRouter()
 
     function handleAvatarChange(e) {
         if (!e.target.files?.[0]) return
+        if (e.target.files?.[0]?.size > (1 * 1000000)) {
+            return toast.error("Profile picture size maximum 1 MB accepted")
+        }
         setAvatarFile(e.target.files[0])
         setAvatarPreview(URL.createObjectURL(e.target.files[0]))
     }
@@ -26,10 +35,28 @@ const ContactForm = ({ formType, userId }) => {
         defaultValues: contactFormDefaultValue,
     })
 
-    function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.table(values)
+    async function onSubmit(values) {
+        try {
+            const formData = new FormData()
+            formData.append("avatarFile", avatarFile)
+            const res = await createContact({
+                contact: values,
+                formData,
+                userId
+            })
+            console.log(res)
+            // if any errors are returned display them
+            if (res?.error) {
+                toast.error(res.error)
+            }
+            // navigate to the home page
+            if (res?.success) {
+                router.push("/")
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.message || "Something went wrong")
+        }
     }
 
     return (
@@ -40,13 +67,14 @@ const ContactForm = ({ formType, userId }) => {
                     <label
                         htmlFor='avatar'
                         className='m-auto relative border bg-gradient-to-b from-cyan-500/20 to-violet-500/20 to w-max rounded-full flex size-28 sm:size-36 aspect-square cursor-pointer'
+                        title='Click to add profile photo'
                     >
                         <figure className='size-full overflow-hidden rounded-full flex items-center'>
                             {avatarPreview ? <Image className='w-full' width={150} height={150} src={avatarPreview} alt="avatar-preview" /> :
                                 <User strokeWidth={1} className='p-6 size-full' />
                             }
                         </figure>
-                        <input onChange={handleAvatarChange} type="file" name="avatar" id="avatar" className='hidden' />
+                        <input onChange={handleAvatarChange} type="file" name="avatar" id="avatar" className='hidden' accept="image/*" />
                         <span className="absolute bottom-0 right-0 z-10 rounded-full border-background border-4 bg-primary text-primary-foreground p-1 hover:bg-opacity-90"><Plus /></span>
                     </label>
                     <FormField
@@ -115,7 +143,20 @@ const ContactForm = ({ formType, userId }) => {
                         )}
                     />
                     <div className='text-center pt-2'>
-                        <Button type="submit">Save</Button>
+                        <Button
+                            variant="secondary"
+                            type="submit"
+                            disabled={form?.formState?.isSubmitting}
+                            className="disabled:opacity-95"
+                        >
+                            {form?.formState?.isSubmitting ?
+                                <>
+                                    <CgSpinner className='mr-1 text-2xl animate-spin duration-500' />
+                                    <span>Saving</span>
+                                </> :
+                                <span>Save</span>
+                            }
+                        </Button>
                     </div>
                 </form>
             </Form>

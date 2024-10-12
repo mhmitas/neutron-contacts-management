@@ -52,7 +52,7 @@ export const SmNavbarSheet = () => {
                         <Link key={item.href} href={item.href}>
                             <li className={
                                 cn(
-                                    'w-full hover:bg-muted text-left px-4 py-2 rounded-md flex items-center gap-4',
+                                    'w-full hover:bg-muted text-left px-4 py-2 rounded-md flex items-center gap-4 transition-colors',
                                     pathname === item.href ?
                                         'bg-muted'
                                         : 'bg-background'
@@ -77,7 +77,7 @@ export const LgNavItems = () => {
         <>
             {navItems.map(item => (
                 <Link
-                    className={cn('font-semibold hover:text-secondary px-2', pathname === item.href ? 'text-secondary' : 'text-foreground')}
+                    className={cn('font-semibold hover:text-secondary px-2 transition-colors', pathname === item.href ? 'text-secondary' : 'text-foreground')}
                     key={item.href}
                     href={item.href}
                 >
